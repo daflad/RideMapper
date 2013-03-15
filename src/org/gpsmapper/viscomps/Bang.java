@@ -4,13 +4,16 @@
  */
 package org.gpsmapper.viscomps;
 
+import org.gpsmapper.viscomps.interfaces.ButtonInterface;
 import processing.core.*;
 
 /**
- *
+ * Class defining GUI buttons.
+ * 
  * @author StephenJohnRussell
+ * @version 0.1
  */
-public class Bang extends java.awt.Polygon {
+public class Bang extends java.awt.Polygon implements ButtonInterface {
 
     private PApplet p;
 
@@ -20,6 +23,7 @@ public class Bang extends java.awt.Polygon {
         this.p = p;
     }
 
+    @Override
     public void drawMe() {
         p.noStroke();
         p.beginShape();
@@ -29,7 +33,8 @@ public class Bang extends java.awt.Polygon {
         p.endShape(PApplet.CLOSE);
     }
 
-    public void bangRoundedRect(float x, float y, float w, float h, float rx, float ry) {
+    @Override
+    public void roundedButton(float x, float y, float w, float h, float rx, float ry) {
 
         p.noStroke();
         p.beginShape();
@@ -48,10 +53,12 @@ public class Bang extends java.awt.Polygon {
         p.endShape(PApplet.CLOSE);
     }
 
+    @Override
     public boolean mouseMoved(int x, int y) {
         return contains(x, y);
     }
 
+    @Override
     public boolean mousePressed(int x, int y) {
         if (p.mousePressed) {
             return contains(x, y);
@@ -60,6 +67,7 @@ public class Bang extends java.awt.Polygon {
         }
     }
 
+    @Override
     public boolean doubleClick() {
         if (p.mouseEvent.getClickCount() == 2) {
             return true;

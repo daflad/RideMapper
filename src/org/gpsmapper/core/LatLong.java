@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * Class containing data from phone sensors.
  * @author Stephen John Russell
- * 
+ * @version 0.1
  */
 
 public final class LatLong implements Serializable {
@@ -41,24 +41,31 @@ public final class LatLong implements Serializable {
     this.speed = speed;
     this.totalDistance = totalDistance;
   }
+  
   public float getLat() {
     return lat;
   }
+  
   public float getLongitude() {
     return longitude;
   }
+  
   public float getAltitude() {
     return altitude;
   }
+  
   public float getAccuracy() {
     return accuracy;
   }
+          
   public float getSpeed() {
     return speed;
   }
+  
   public long getTime() {
     return time;
   }
+  
   public float getTotalDistance() {
     return totalDistance;
   }

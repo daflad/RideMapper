@@ -10,30 +10,60 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 import org.gpsmapper.core.LatLong;
+import org.gpsmapper.viscomps.interfaces.RouteDrawerInterface;
 import processing.core.PApplet;
 
 /**
- *
+ * Class to handle drawing route of LatLong to screen / map.
+ * 
  * @author StephenJohnRussell
+ * @version 0.1
  */
-public class RouteDrawer {
+public class RouteDrawer implements RouteDrawerInterface {
     
+    /**
+     * Current location as indicated by mouse.
+     */
     private int flag;
     private LatLong marker;
+    /**
+     * Button to adjust elevation box height.
+     */
     private Bang elevAdj;
-    private int elevBoxHeight = 0;
-    private float maxElev = 0;    
+    private int elevBoxHeight;
+    /**
+     * Minimum space required by elevation image.
+     */
+    private float maxElev;    
+    /**
+     * Arrays for buttons.
+     */
     private int[] xs;
     private int[] ys;
 
-    //Convert Meters per Second to Miles per Hour.
-    //Coould add here the ability to switch between mph & kph
+    public RouteDrawer() {
+        this.elevBoxHeight = 0;
+        this.maxElev = 0;
+    }
+
+    /**
+     * Convert Meters per Second to Miles per Hour.
+     * Could add here the ability to switch between mph & kph
+     * @param mps
+     */ 
     private double speedConvert(float mps) {
         return mps * (3600 / 1609.344);
     }
 
-    //Draw current route to the screen
-    public void drawRoute(PApplet p, MyMap theMap, ArrayList<LatLong> coords) {
+    /**
+     * Draw current route to the screen.
+     * @param p
+     * @param theMap
+     * @param coords 
+     */
+    @Override
+    public void drawRoute(PApplet p, MasterMap theMap, ArrayList<LatLong> coords) {
+        
         Location firstPoint = new Location((float) coords.get(0).getLat(), (float) coords.get(0).getLongitude());
         p.beginShape(PApplet.LINES);
         for (LatLong e : coords) {
@@ -56,8 +86,15 @@ public class RouteDrawer {
         p.endShape();
     }
 
-    //Draw a marker on route & elevation
-    public void drawMarker(PApplet p, MyMap theMap, boolean drawRoute, ArrayList<LatLong> coords) {
+    /**
+     * Draw a marker on route & elevation.
+     * @param p
+     * @param theMap
+     * @param drawRoute
+     * @param coords 
+     */
+    @Override
+    public void drawMarker(PApplet p, MasterMap theMap, boolean drawRoute, ArrayList<LatLong> coords) {
         p.textAlign(PApplet.RIGHT);
         marker = coords.get(flag);
         float xy[] = theMap.getScreenPositionFromLocation(new Location((float) marker.getLat(), (float) marker.getLongitude()));
@@ -83,7 +120,12 @@ public class RouteDrawer {
         p.textAlign(PApplet.CENTER);
     }
 
-    //Draw Eleveation box
+    /**
+     * Draw Elevation box.
+     * @param p
+     * @param coords 
+     */
+    @Override
     public void drawElevation(PApplet p, ArrayList<LatLong> coords) {
         float m;
         float i;
@@ -115,8 +157,13 @@ public class RouteDrawer {
         p.textAlign(PApplet.CENTER);
     }
     
-    //Method to control adjustment of elevaation box.
-    //::NEXT STEP:: If mouse interation with map could be turned off that would be better.
+    /**
+     * Method to control adjustment of elevation box.
+     * ::NEXT STEP:: If mouse interaction with map could
+     *               be turned off that would be better.
+     * @param p
+     * @param coords 
+     */
     private void adjElevBoxHeight(PApplet p, ArrayList<LatLong> coords) {
         p.noStroke();
         rectButSetup(0, (p.screenHeight - elevBoxHeight - 5), p.screenWidth, 10);
@@ -135,7 +182,12 @@ public class RouteDrawer {
         }
     }
 
-    //Draw stat box above elevation box
+    /**
+     * Draw statistic box above elevation box.
+     * 
+     * @param p
+     * @param coords 
+     */
     private void markerStatBox(PApplet p, ArrayList<LatLong> coords) {
         p.noStroke();
         p.fill(135, 206, 235, 180);
@@ -150,7 +202,15 @@ public class RouteDrawer {
         p.text("Time Ellapsed:", 100, p.screenHeight - elevBoxHeight - 25);
         p.text("Distance:", 100, p.screenHeight - elevBoxHeight - 10);
     }
-
+    
+    /**
+     * Setup arrays ready for polygon.
+     * 
+     * @param xPos
+     * @param yPos
+     * @param w
+     * @param h 
+     */
     private void rectButSetup(int xPos, int yPos, int w, int h) {
         xs = new int[]{xPos, xPos + w, xPos + w, xPos};
         ys = new int[]{yPos, yPos, yPos + h, yPos + h};

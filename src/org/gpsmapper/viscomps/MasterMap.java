@@ -15,34 +15,34 @@ import processing.core.PApplet;
  * Wrapper type class to tidy away map generation.
  *
  * @author StephenJohnRussell
+ * @version 0.1 * 
  */
-public class MyMap {
+public class MasterMap {
 
     public static final String JDBC_CONN_STRING_MAC = ""
-            + "jdbc:sqlite:/Users/StephenJohnRussell/NetBeansProjects/GPSMapper/data/NorthWales.mbtiles";
+            + "jdbc:sqlite:data/NorthWales.mbtiles";
     private UnfoldingMap theMap;
 
     /**
      * Construct an unfolding map with either MBTiles(MBT) or OpenStreetMap(OSM)
-     * 
+     *
      * Setting openOnline to true will use OSM, false will load local MBT data
-     * 
+     *
      * Location home is where map will pan to on load.
      *
      * @param p
      * @param home
      */
-    public MyMap(PApplet p, Location home, boolean openOnline) {
+    public MasterMap(PApplet p, Location home, boolean openOnline) {
         if (openOnline) {
             //this will conect via internet to OpenStreetMaps tile provider
-            theMap = new UnfoldingMap(p, "UnfoldingMap", 0, 0, p.width, p.height, true, false, new OpenStreetMap.OpenStreetMapProvider());
-            //theMap = new UnfoldingMap(p);
-           // theMap = new UnfoldingMap(p, new OpenStreetMapProvider());
+            theMap = new UnfoldingMap(p, "UnfoldingMap", 0, 0, p.width, p.height, 
+                    true, false, new OpenStreetMap.OpenStreetMapProvider());            
         } else {
             //this will conect to local MBTiles SQLite DB
-            theMap = new UnfoldingMap(p, "Map", 0, 0, p.width, p.height, true, false, new MBTilesMapProvider(JDBC_CONN_STRING_MAC));
+            theMap = new UnfoldingMap(p, "Map", 0, 0, p.width, p.height, true, 
+                    false, new MBTilesMapProvider(JDBC_CONN_STRING_MAC));
         }
-        
         theMap.zoomAndPanTo(home, 11);
         theMap.setZoomRange(1, 21);
         MapUtils.createDefaultEventDispatcher(p, theMap);

@@ -6,12 +6,14 @@ package org.gpsmapper.viscomps;
 
 import org.gpsmapper.core.GPSMapper;
 import org.gpsmapper.core.RouteList;
+import org.gpsmapper.viscomps.interfaces.DockInterface;
 
 /**
  *
  * @author StephenJohnRussell
+ * @version 0.1
  */
-public final class Dock {
+public final class Dock implements DockInterface {
 
     Bang recordRoute;
     Bang bangRoute;
@@ -38,26 +40,28 @@ public final class Dock {
         bangRoute = new Bang(xs, ys, 4, p);
     }
 
+    @Override
     public void drawDock(RouteList routes) {
         p.stroke(2);
         p.fill(125, 135, 197, 50);
         rectButSetup(((p.screenWidth - 1000) / 2), -20, 1000, 90);
         dockBase = new Bang(xs, ys, 4, p);
-        dockBase.bangRoundedRect(((p.screenWidth - 1000) / 2), -20, 1000, 90, 20, 20);
-        butBang(recordRoute, 900, "RECORD", "ROUTE", p.drawRoute);
-        butBang(bangRoute, 700, "DRAW", "ROUTE", p.drawRoute);
-        butBang(bangElev, 500, "DRAW", "ELEVATION", p.drawRoute);
-        butBang(routeOff, 300, "HIDE", "ALL", p.drawRoute);
+        dockBase.roundedButton(((p.screenWidth - 1000) / 2), -20, 1000, 90, 20, 20);
+        addButtonToDock(recordRoute, 900, "RECORD", "ROUTE", p.drawRoute);
+        addButtonToDock(bangRoute, 700, "DRAW", "ROUTE", p.drawRoute);
+        addButtonToDock(bangElev, 500, "DRAW", "ELEVATION", p.drawRoute);
+        addButtonToDock(routeOff, 300, "HIDE", "ALL", p.drawRoute);
         loadedRoutes(routes);
-        bangBehaviour();
+        buttonBehaviour();
     }
 
-    public void butBang(Bang but, int d, String lineOne, String lineTwo, boolean bool) {
+    @Override
+    public void addButtonToDock(Bang but, int d, String lineOne, String lineTwo, boolean bool) {
         if (but.mouseMoved(p.mouseX, p.mouseY)) {
             p.fill(125, 135, 255, 100);
-            but.bangRoundedRect(((p.screenWidth - d) / 2), 10, 80, 40, 20, 20);
+            but.roundedButton(((p.screenWidth - d) / 2), 10, 80, 40, 20, 20);
         } else {
-            but.bangRoundedRect(((p.screenWidth - d) / 2), 10, 80, 40, 20, 20);
+            but.roundedButton(((p.screenWidth - d) / 2), 10, 80, 40, 20, 20);
         }
         //Labels
         p.fill(0);
@@ -67,7 +71,8 @@ public final class Dock {
         p.fill(125, 135, 197, 100);
     }
 
-    public void bangBehaviour() {
+    @Override
+    public void buttonBehaviour() {
         if (bangRoute.mousePressed(p.mouseX, p.mouseY)) {
             p.drawRoute = true;
         }
@@ -85,6 +90,7 @@ public final class Dock {
         }
     }
 
+    @Override
     public void loadedRoutes(RouteList routes) {
         int divider = 0;
         int xCor = 10;
@@ -99,9 +105,9 @@ public final class Dock {
             routeList = new Bang(xs, ys, 4, p);
             if (routeList.mouseMoved(p.mouseX, p.mouseY)) {
                 p.fill(125, 135, 255, 100);
-                routeList.bangRoundedRect(((p.screenWidth - 100) / 2) + divider, xCor, 40, 40, 20, 20);
+                routeList.roundedButton(((p.screenWidth - 100) / 2) + divider, xCor, 40, 40, 20, 20);
             } else {
-                routeList.bangRoundedRect(((p.screenWidth - 100) / 2) + divider, xCor, 40, 40, 20, 20);
+                routeList.roundedButton(((p.screenWidth - 100) / 2) + divider, xCor, 40, 40, 20, 20);
             }
             if (routeList.mouseMoved(p.mouseX, p.mouseY) && p.mousePressed) {
                 routes.setCurrentRoute(routes.getRoute(i));

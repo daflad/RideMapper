@@ -57,7 +57,7 @@ public final class ToolBox {
         elevBut = new Bang(xs, ys, 3, p);
     }
 
-    public void drawToolBox(MyMap theMap) {
+    public void drawToolBox(MasterMap theMap) {
         p.noStroke();
         //Draw Button Grid
         p.fill(255, 0, 0, 150);
@@ -134,7 +134,7 @@ public final class ToolBox {
         }
     }
 
-    public void onBang(MyMap theMap) {
+    public void onBang(MasterMap theMap) {
         p.fill(0);
         if (panUp.mouseMoved(p.mouseX, p.mouseY)) {
             p.text("PAN", r - 40, f - 10, 85, 20);

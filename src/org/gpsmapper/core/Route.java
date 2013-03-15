@@ -7,14 +7,16 @@ package org.gpsmapper.core;
 import de.fhpotsdam.unfolding.utils.GeoUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
+import org.gpsmapper.viscomps.interfaces.RouteInterface;
 import processing.xml.*;
 
 /**
  * Class to manage & organise LatLong points
  *
  * @author StephenJohnRussell
+ * @version 0.1
  */
-public final class Route {
+public final class Route implements RouteInterface {
 
     /**
      * The list of coordinates.
@@ -42,6 +44,7 @@ public final class Route {
      * @param coordinate
      * @return 
      */
+    @Override
     public boolean removeCoordinate(LatLong coordinate) {
         return this.coordinates.remove(coordinate);
 
@@ -52,6 +55,7 @@ public final class Route {
      *
      * @param coordinates
      */
+    @Override
     public boolean addCoordinate(LatLong coordinate) {
         return this.coordinates.add(coordinate);
     }
@@ -61,6 +65,7 @@ public final class Route {
      *
      * @return
      */
+    @Override
     public ArrayList<LatLong> getCoords() {
         return coordinates;
     }
@@ -70,6 +75,7 @@ public final class Route {
      *
      * @param coords
      */
+    @Override
     public void setCoords(ArrayList<LatLong> coords) {
         this.coordinates = coords;
     }
@@ -79,6 +85,7 @@ public final class Route {
      *
      * @param xml
      */
+    @Override
     public void importRoute(XMLElement xml) {
         XMLElement trk = xml.getChild(0);
         XMLElement trkSeg = trk.getChild(1);
